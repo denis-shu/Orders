@@ -1,0 +1,54 @@
+﻿<h1>New Venicle</h1>
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
+<p>{{ venicle | json }}</p>
+<form #f="ngForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="form-group">
+        <label for="make">Make</label>
+        <select id = "make" class = "form-control" (change) = "onMakeChange()"
+                [(ngModel)] = "venicle.makeId" name = "makeId" required #make="ngModel">
+            <option value=""></option>
+            <option *ngFor="let m of makes" value="{{m.id}}">{{m.name}}</option>
+        </select>
+        <div class="alert alert-danger" *ngIf="make.touched&&!make.valid">
+            Please, specify the make
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="model">Model</label>
+        <select id="model" class="form-control" [(ngModel)]="venicle.modelId" name="modelId">
+            <option value=""></option>
+            <option *ngFor="let mdl of models" value="{{mdl.id}}">{{mdl.name}}</option>
+
+        </select>
+    </div>
+    <p>Is this venicle registered?</p>
+        <label for="registered" class="radio-inline">
+            <input type="radio" name="isRegistered" [value]="true" [(ngModel)]="venicle.isRegistered" id="registered" >Yes
+        </label>
+        <label for="notRegistered" class="radio-inline">
+            <input type="radio" name="isRegistered" [value]="false" [(ngModel)]="venicle.isRegistered" id="notRegistered">No
+        </label>
+    <h2>Features</h2>
+    <div *ngFor="let f of features" class="checkbox">
+        <label for="feature {{f.id}}">
+            <input type="checkbox" id="feature{{f.id}}" (change)="onFeatureToggle(f.id, $event)" [checked]="venicle.features.includes(f.id)"> {{f.name}}
+        </label>
+    </div>
+    <h2>Contact</h2>
+    <div class="form-group">
+        <label for="contactName">Name</label>
+        <input type="text" id="contactName"  value="" class="form-control" [(ngModel)]="venicle.contact.name" name="contactName"/>
+    </div>
+    <div class="form-group">
+        <label for="contactPhone">Phone</label>
+        <input type="text" id="contactPhone" value="" class="form-control" [(ngModel)]="venicle.contact.phone" name="contactPhone"/>
+    </div>
+    <div class="form-group">
+        <label for="contactEmail">Email</label>
+        <input type="text" id="contactEmail" value="" class="form-control"[(ngModel)]="venicle.contact.email" name="contactEmail" />
+    </div>
+    <button class="btn btn-primary" [disabled]="!f.valid">
+        Save
+    </button>
+    <button *ngIf="venicle.id" class="btn btn-danger" type="button" (click)="delete()">Delete</button>
+</form>

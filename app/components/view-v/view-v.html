@@ -1,0 +1,58 @@
+﻿<h1>Venicle</h1>
+<div>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">Venicle</a></li>
+        <li role="presentation"><a href="photos" aria-controls="photos" role="tab" data-toggle="tab">Photos</a></li>
+
+        <!--<li role="presentation"><a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a></li>-->
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content" *ngIf="venicle">
+        <!-- Venicle tab -->
+        <div role="tabpanel" class="tab-pane active" id="basic">
+
+            <h2>Basics</h2>
+            <ul>
+                <li>Make: {{ venicle.make.name }}</li>
+                <li>Model: {{ venicle.model.name }}</li>
+                <li>Registered: {{ venicle.isRegistered ? 'Yes' : 'No' }}
+            </ul>
+
+
+            <h2>Images</h2>
+            <input type="file" (change)="uploadImage()" #fileInput>
+            <div class="progress" *ngIf="progress&&progress.percentage < 100" >
+                <div class="progress-bar" [style.width]="progress.percentage + '%'">
+                    <span class="sr-only">{{progress.percentage}}% Complete</span>
+                </div>
+            </div>
+            <img *ngFor="let i of images" src="/uploads/{{i.fileName}}" class="img-thumbnail" />
+            <h2>Features</h2>
+            <ul>
+                <li *ngFor="let f of venicle.features">{{ f.name }}</li>
+            </ul>
+            <h2>Contact</h2>
+            <ul>
+                <li>Contact Name: {{ venicle.contact.name }}</li>
+                <li>Contact Phone: {{ venicle.contact.phone }}</li>
+                <li>Contact Email: {{ venicle.contact.email }}</li>
+            </ul>
+            <br />
+            <p>
+                <a class="btn btn-primary" [routerLink]="['/venicles/edit/', venicle.id]">Edit</a>
+                <button class="btn btn-danger" (click)="delete()">Delete</button>
+                <a class="btn btn-default" [routerLink]="['/venicles']">View All Venicles</a>
+            </p>
+
+        </div>
+        <!-- Photos tab -->
+        <!-- <div role="tabpanel" class="tab-pane" id="images">-->
+        <div role="tabpanel" class="tab-pane" id="photos">
+            <h2>Images</h2>
+            <input type="file" (change)="uploadImage()" #fileInput>           
+        </div>
+    </div>
+</div>
